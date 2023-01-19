@@ -9,5 +9,5 @@ public interface TurnoRepository extends MongoRepository<Turno, Long>{
     Turno findByNumerTurno(Integer numerTurno);
     Turno findByCedula(String cedula);
     Turno findByNombre(String nombre);
-    
+    Turno findByEjecutivo(String ejecutivo);    
 }

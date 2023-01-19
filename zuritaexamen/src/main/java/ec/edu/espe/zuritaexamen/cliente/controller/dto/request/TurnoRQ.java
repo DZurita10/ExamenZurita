@@ -7,5 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TurnoRQ {
     private String cedula;
+    private String nombre;
 
 }

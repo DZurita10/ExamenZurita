@@ -8,8 +8,10 @@ import ec.edu.espe.zuritaexamen.cliente.controller.dto.request.TurnoRQ;
 import ec.edu.espe.zuritaexamen.cliente.controller.dto.request.TurnoUpRQ;
 import ec.edu.espe.zuritaexamen.cliente.controller.dto.response.TurnoRS;
 import ec.edu.espe.zuritaexamen.cliente.model.Cliente;
+import ec.edu.espe.zuritaexamen.cliente.model.Ejecutivo;
 import ec.edu.espe.zuritaexamen.cliente.model.Turno;
 import ec.edu.espe.zuritaexamen.cliente.repository.ClienteRepository;
+import ec.edu.espe.zuritaexamen.cliente.repository.EjecutivoRepository;
 import ec.edu.espe.zuritaexamen.cliente.repository.TurnoRepository;
 
 @Service
@@ -17,25 +19,30 @@ public class TurnoService {
 
     private final TurnoRepository turnoRepository;
     private final ClienteRepository clienteRepository;
+    private final EjecutivoRepository ejecutivoRepository;
 
-    public TurnoService(TurnoRepository turnoRepository, ClienteRepository clienteRepository) {
+    public TurnoService(TurnoRepository turnoRepository, ClienteRepository clienteRepository,
+            EjecutivoRepository ejecutivoRepository) {
         this.turnoRepository = turnoRepository;
         this.clienteRepository = clienteRepository;
+        this.ejecutivoRepository = ejecutivoRepository;
     }
 
-    public TurnoRS saveTurno(TurnoRQ cedula) {
+    public TurnoRS saveTurno(TurnoRQ turnoRQ) {
 
         try {
-            int numeroTurno = (int) (Math.random() * 10 + 1);
-            int numeroEscritorio = (int) (Math.random() * 10 + 1);
+            Cliente cliente = clienteRepository.findByCedula(turnoRQ.getCedula());
+            Ejecutivo ejecutivo = ejecutivoRepository.findByEstado("INC");
+            Turno searchTurno = turnoRepository.findByNumerTurno(-1);
 
-            Cliente cliente = clienteRepository.findByCedula(cedula.getCedula());
+
             Turno turno = new Turno();
-            turno.setCedula(cedula.getCedula());
+            turno.setCedula(turnoRQ.getCedula());
             turno.setNombre(cliente.getNombre() + " " + cliente.getApellido());
-            turno.setNumerTurno(numeroTurno);
-            turno.setNumeroEscritorio(numeroEscritorio);
             turno.setFechaGeneracion(new Date());
+            turno.setNumerTurno(searchTurno.getNumerTurno() + 1);
+            turno.setEjecutivo(ejecutivo.getNombreEjecutivo());
+            turno.setCodigoEjecutivo(ejecutivo.getCodigoEjecutivo());
             turnoRepository.save(turno);
             TurnoRS turnoRS = new TurnoRS();
             turnoRS.setNombre(turno.getNombre());
@@ -48,8 +55,8 @@ public class TurnoService {
 
     }
 
-    public void updateTurno(TurnoUpRQ turnoRQ) {
-        Turno turno = turnoRepository.findByCedula(turnoRQ.getCedula());
+    public void updateTurno(String cedula, TurnoUpRQ turnoRQ) {
+        Turno turno = turnoRepository.findByCedula(cedula);
         turno.setFechaInicioAtencion(new Date());
         turno.setFechaFinAtencion(new Date());
         turno.setCalificacion(turnoRQ.getCalificacion());

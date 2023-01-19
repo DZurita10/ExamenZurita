@@ -26,9 +26,9 @@ public class TurnoController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/cliente-turno", method = RequestMethod.PUT)
-    public void updateTurno(TurnoUpRQ turnoRQ) {
-        this.turnoService.updateTurno(turnoRQ);
+    @RequestMapping(value = "/cliente-turno/{cedula}", method = RequestMethod.PUT)
+    public void updateTurno(String cedula, TurnoUpRQ turnoRQ) {
+        this.turnoService.updateTurno(cedula, turnoRQ);
     }
 
     @ResponseBody

@@ -2,7 +2,6 @@ package ec.edu.espe.zuritaexamen.cliente.controller.dto.request;
 
 import java.util.Date;
 
-import ec.edu.espe.zuritaexamen.cliente.model.Ejecutivo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +12,7 @@ public class TurnoUpRQ {
     private Date fechaInicioAtencion;
     private Date fechaFinAtencion;
     private Integer calificacion;
-    private Ejecutivo ejecutivo;
+    private String ejecutivo;
+    private String codigoEjecutivo;
 
 }

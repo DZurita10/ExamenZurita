@@ -21,7 +21,8 @@ public class Turno {
     private String nombre;
     private Integer numerTurno;
     private Integer numeroEscritorio;
-    private Ejecutivo ejecutivo;
+    private String ejecutivo;
+    private String codigoEjecutivo;
     private Date fechaGeneracion;
     private Date fechaInicioAtencion;
     private Date fechaFinAtencion;
